@@ -1,9 +1,9 @@
 function lv_up(character) {
   const newStats = {};
-  const baseStats = character.lv_1_stat;   // stat iniziali a lv1
-  const archBonus = character.archetypeBonus;
-  const currentStats = character.stats;    // stat attuali
-  character.level += 1
+  const baseStats = Characters.find(c => c.id === character.id).stats; // Stat iniziali dall'ID
+  const archBonus = Archetypes[character.archetype];
+  const currentStats = character.stats;
+  character.level += 1;
 
   for (let stat in baseStats) {
     const growth_per_lv = Math.ceil((baseStats[stat] / 15) + (archBonus[stat] / 3));
@@ -14,7 +14,8 @@ function lv_up(character) {
 
   return {
     ...character,
-    stats: newStats
+    stats: newStats,
+    stats_instance: newStats
   };
 }
 
@@ -48,32 +49,39 @@ const Characters = [
 function assignArchetype(character) {
   const archetypeNames = Object.keys(Archetypes);
   const randomName = archetypeNames[Math.floor(Math.random() * archetypeNames.length)];
-  const bonus = Archetypes[randomName];
 
   return {
     ...character,
-    archetype: randomName,
-    archetypeBonus: { ...bonus }
+    archetype: randomName
   };
 }
 
 function create_character() {
   const randomIndex = Math.floor(Math.random() * Characters.length);
   const randomCharacter = Characters[randomIndex];
-    
-  const character = assignArchetype(randomCharacter);
-  return {...character, level: 1 , exp: 0 , lv_1_stat: { ...character.stats }};
+  
+  // Creiamo una copia delle statistiche base per stats_instance
+  const character = assignArchetype({
+    ...randomCharacter,
+    stats_instance: {...randomCharacter.stats} // Duplica le stat base
+  });
+  
+  return {
+    ...character,
+    level: 1,
+    exp: 0,
+    stats: {...randomCharacter.stats} // Inizializza le stat attuali
+  };
 }
 
 let player = create_character();
-console.log(player);
+console.log("Personaggio creato:", player);
 
 player = lv_up(player);
+console.log("lv2:", player.stats, "\n", player.stats_instance);
 
-console.log("lv2: ", player.stats)
-
-for(let i = 0; i < 48; i++){
-    player = lv_up(player);
+for(let i = 0; i < 48; i++) {
+  player = lv_up(player);
 }
 
-console.log("lv50: ", player.stats)
+console.log("lv50:", player.stats, "\n", player.stats_instance);
