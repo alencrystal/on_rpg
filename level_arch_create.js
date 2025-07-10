@@ -6,9 +6,10 @@ function lv_up(character) {
   character.level += 1;
 
   for (let stat in baseStats) {
-    const growth_per_lv = Math.ceil((baseStats[stat] / 15) + (archBonus[stat] / 3));
-    newStats[stat] = currentStats[stat] + growth_per_lv;
+  const growth_per_lv = baseStats[stat] * 0.1 + archBonus[stat] * 0.2;
+  newStats[stat] = Number((currentStats[stat] + growth_per_lv).toFixed(2));
   }
+
 
   newStats.hp += 1;
 
@@ -20,30 +21,32 @@ function lv_up(character) {
 }
 
 const Archetypes = {
-  tank:      { hp: 3, atk: 1, def: 2, matk: 0, mdef: 3, spd: 0 },
-  assassin:  { hp: 0, atk: 3, def: 0, matk: 1, mdef: 0, spd: 5 },
+ // 5 S 4 A 3 B 2 C 1 D 0 E
+  //front-line
+  tank:      { hp: 4, atk: 0, def: 3, matk: 0, mdef: 1, spd: 1 },
+  guardian:  { hp: 3, atk: 0, def: 2, matk: 0, mdef: 4, spd: 0 },
   bruiser:   { hp: 2, atk: 3, def: 2, matk: 0, mdef: 1, spd: 1 },
+  
+  //speed
+  swiftblade:{ hp: 1, atk: 2, def: 0, matk: 1, mdef: 0, spd: 5 },
+  assassin:  { hp: 0, atk: 4, def: 0, matk: 2, mdef: 0, spd: 3 },
+  trickster: { hp: 0, atk: 2, def: 1, matk: 3, mdef: 0, spd: 3 },
+
+  //mage
   mage:      { hp: 0, atk: 0, def: 1, matk: 4, mdef: 3, spd: 1 },
-  battlemage:{ hp: 1, atk: 2, def: 1, matk: 3, mdef: 1, spd: 1 },
+  battlemage:{ hp: 1, atk: 2, def: 2, matk: 3, mdef: 1, spd: 0 },
+
+  //bilanciati
   expert:    { hp: 1, atk: 2, def: 1, matk: 2, mdef: 1, spd: 2 },
-  swiftblade:{ hp: 0, atk: 4, def: 1, matk: 1, mdef: 0, spd: 3 },
-  guardian:  { hp: 4, atk: 0, def: 3, matk: 0, mdef: 1, spd: 1 },
-  trickster: { hp: 1, atk: 2, def: 0, matk: 2, mdef: 0, spd: 4 }
 };
 
 const Characters = [
   {
-    id: 1,
-    name: "Kael",
-    type: ["pyro"],
-    stats: { hp: 10, atk: 10, def: 6, matk: 12, mdef: 10, spd: 12 }
-  },
-  {
-    id: 3,
-    name: "Sera",
-    type: ["ice", "pyro"],
-    stats: { hp: 10, atk: 12, def: 5, matk: 6, mdef: 7, spd: 20 }
-  }
+  "id": 11,
+  "name": "Brundak",
+  "type": ["pyro", "steel"],
+  "stats": { "hp": 11, "atk": 15, "def": 10, "matk": 8, "mdef": 7, "spd": 9 }
+}
 ];
 
 function assignArchetype(character) {
@@ -63,7 +66,7 @@ function create_character() {
   // Creiamo una copia delle statistiche base per stats_instance
   const character = assignArchetype({
     ...randomCharacter,
-    stats_instance: {...randomCharacter.stats} // Duplica le stat base
+    instance: {...randomCharacter.stats} // Duplica le stat base
   });
   
   return {
@@ -78,10 +81,10 @@ let player = create_character();
 console.log("Personaggio creato:", player);
 
 player = lv_up(player);
-console.log("lv2:", player.stats, "\n", player.stats_instance);
+console.log("lv2:", player.stats, "\n");
 
 for(let i = 0; i < 48; i++) {
   player = lv_up(player);
 }
 
-console.log("lv50:", player.stats, "\n", player.stats_instance);
+console.log("lv50:", player.stats, "\n");
