@@ -1,3 +1,5 @@
+
+
 function lv_up(character) {
   const newStats = {};
   const baseStats = Characters.find(c => c.id === character.id).stats; // Stat iniziali dall'ID
