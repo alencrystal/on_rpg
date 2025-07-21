@@ -1,20 +1,5 @@
-function create_character() {
-  const randomIndex = Math.floor(Math.random() * Characters.length);
-  const randomCharacter = Characters[randomIndex];
-  
-  // Creiamo una copia delle statistiche base per stats_instance
-  let character = assignArchetype({
-    ...randomCharacter,
-    instance: {...randomCharacter.stats} // Duplica le stat base
-  });
-  
-  return {
-    ...character,
-    level: 1,
-    exp: 0,
-    stats: {...randomCharacter.stats} // Inizializza le stat attuali
-  };
-}
+import  Characters  from '../data/characters.js';
+import  Archetypes  from '../data/archetypes.js';
 
 function assignArchetype(character) {
   const archetypeNames = Object.keys(Archetypes);
@@ -25,3 +10,23 @@ function assignArchetype(character) {
     archetype: randomName
   };
 }
+
+function create_character() {
+  const randomIndex = Math.floor(Math.random() * Characters.length);
+  const randomCharacter = Characters[randomIndex];
+
+  // Assegna archetype casuale
+  const characterWithArchetype = assignArchetype({
+    ...randomCharacter,
+    // stats_instance non serve, usa solo stats
+  });
+
+  return {
+    ...characterWithArchetype,
+    level: 1,
+    exp: 0,
+    stats: { ...randomCharacter.stats }
+  };
+}
+
+export { create_character, assignArchetype };

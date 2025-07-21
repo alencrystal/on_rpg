@@ -1,0 +1,13 @@
+{
+  "name": "on_rpg",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "script.js",
+  "description": "",
+  "scripts": {
+    "start": "node script.js"
+  },
+  "keywords": [],
+  "author": "alen_crystal",
+  "license": "ISC"
+}

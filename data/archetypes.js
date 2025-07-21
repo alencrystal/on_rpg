@@ -3,7 +3,7 @@ const Archetypes = {
   tank:      { hp: 4, atk: 0, def: 3, matk: 0, mdef: 1, spd: 1 },
   guardian:  { hp: 3, atk: 0, def: 2, matk: 0, mdef: 4, spd: 0 },
   bruiser:   { hp: 2, atk: 3, def: 2, matk: 0, mdef: 1, spd: 1 },
-  
+
   //speed
   swiftblade:{ hp: 0, atk: 2, def: 0, matk: 1, mdef: 1, spd: 5 },
   assassin:  { hp: 0, atk: 4, def: 0, matk: 2, mdef: 0, spd: 3 },
@@ -22,11 +22,12 @@ const Letters = ['E', 'D', 'C', 'B', 'A', 'S'];
 
 function get_scaling(archetype){
   let scaling = [];
-  Archetypes[archetype].forEach(element => {
-    scaling.push = Letters[element.value];
-  });
+  const stats = Archetypes[archetype];
+  for (let key in stats) {
+    let value = stats[key];
+    scaling.push(Letters[value]);
+  }
   return scaling;
 }
 
-a = get_scaling("tank");
-console.log(a);
+export default Archetypes; get_scaling ;
