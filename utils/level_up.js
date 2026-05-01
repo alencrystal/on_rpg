@@ -19,7 +19,7 @@ function lv_up(character) {
   return {
     ...character,
     stats: newStats,
-    stats_instance: newStats
+    stats_instance: { max_hp: newStats.hp , ...newStats }
   };
 }
 
