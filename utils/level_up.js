@@ -1,5 +1,8 @@
-import  Characters  from '../data/characters.js';
-import  Archetypes  from '../data/archetypes.js';
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
+const Characters = require('../data/characters.json');
+const Archetypes = require('../data/archetypes.json');
 
 function lv_up(character) {
   const newStats = {};
@@ -9,7 +12,7 @@ function lv_up(character) {
   character.level += 1;
 
   for (let stat in baseStats) {
-  const growth_per_lv = baseStats[stat] * 0.1 + archBonus[stat] * 0.2;
+  const growth_per_lv = baseStats[stat] * 0.1 + archBonus[stat] * 0.6;
   newStats[stat] = Number((currentStats[stat] + growth_per_lv).toFixed(2));
   }
 

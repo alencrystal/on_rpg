@@ -20,5 +20,8 @@ for (let i = 0; i < 2; i++){
 }
 
 
+character_istance[0] =lv_up(character_istance[0]);
+character_istance[0] =lv_up(character_istance[0]);
+
 
 console.log(character_istance);

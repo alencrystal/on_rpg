@@ -1,7 +1,10 @@
-import  Characters  from '../data/characters.js';
-import  Archetypes  from '../data/archetypes.js';
+import { createRequire } from 'module';
 
-  let num_id_instance = 0;
+const require = createRequire(import.meta.url);
+const Characters = require('../data/characters.json');
+const Archetypes = require('../data/archetypes.json');
+
+let num_id_instance = 0;
 
 function assignArchetype(character) {
   const archetypeNames = Object.keys(Archetypes);
