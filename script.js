@@ -3,6 +3,7 @@ import lv_up from './utils/level_up.js';
 import attack from './utils/attack.js';
 import switch_position from './utils/position.js';
 import alter_stat from './utils/edit_stat.js';
+import check_level_up from './utils/level_up.js';
 let field1 = [];
 
 let num_char = 0;
@@ -30,12 +31,15 @@ for (let i = 0; i < 2; i++){
 //lv_up(char_ist[0]);
 
 
-
+char_ist[0].exp = 10000;
 
 
 console.log(char_ist[0]);
 //console.log(char_ist);
 
+check_level_up(char_ist[0]);
+
+console.log(char_ist[0]);
 
 //personaggio, statistica, valore%, operazione
 //alter_stat(char_ist[0], "atk", 50, "sub");

@@ -22,8 +22,8 @@ function create_character(id = -1) {
 
   let new_character;
   if (id === -1) {
-    const randomIndex = Math.floor(Math.random() * Characters.length);
-    new_character = Characters[randomIndex];
+    const random_int = Math.floor(Math.random() * Characters.length);
+    new_character = Characters[random_int];
   }
   else {
     new_character = Characters.find(c => c.id === id);
@@ -38,7 +38,7 @@ function create_character(id = -1) {
     level: 1,
     exp: 0,
     stats: { ...new_character.stats },
-    stats_instance: { ...new_character.stats, max_hp: new_character.stats.hp },
+    stats_instance: {max_hp: new_character.stats.hp, ...new_character.stats },
     position: 0,
     team: 0,
     moves: []
@@ -70,17 +70,28 @@ function add_attack(character, move_id = -1){
     return;
   }
 
-  //attacco random
+  //attacco random con priorità di tipo (70%) e fallback casuale (30%)
   if (move_id === -1) {
-    while (new_move === undefined){
-      const randomIndex = Math.floor(Math.random() * moves.length);
+    const available_moves = moves.filter(move => !character.moves.includes(move.id));
 
-      //verifica che non ci siano duplicati
-      if (!character.moves.includes(moves[randomIndex].id)) {
-        new_move = moves[randomIndex].id;
-      }
-    }
+    const prio_moves = [];
+    character.type.forEach(type => {
+      available_moves.forEach(move => {
+        if (move.type === type) {
+          prio_moves.push(move);
+        }
+      });
+    });
+    //rimuove le mosse prioritarie da avaiblesMoves
+    const unique_prio_moves = [...new Set(prio_moves.map(move => move.id))]
+      .map(id => available_moves.find(move => move.id === id));
 
+    // seleziona una mossa con priorità del 70% e casuale al 30%
+    const shouldUsePriorityMove = Math.random() < 0.7;
+    const candidate_moves = shouldUsePriorityMove ? unique_prio_moves : available_moves;
+    const random_int = Math.floor(Math.random() * candidate_moves.length);
+
+    new_move = candidate_moves[random_int].id;
   }
   else {
     new_move = moves.find(m => m.id === move_id).id;

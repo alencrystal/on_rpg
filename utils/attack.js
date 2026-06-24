@@ -49,6 +49,35 @@ function attack(attacker, defender, attack_slot) {
     defender.stats_instance.hp -= damage;
 
     char_ist[defender.id_instance] = defender;
+
+    check_defeat();
+}
+
+function check_defeat() {
+    char_ist.forEach((character) => {
+        if (character.stats_instance.hp <= 0) {
+
+            const team = character.team;
+            console.log(character.name + " is defeated!");
+
+            for (let i = 0; i < char_ist.length; i++) {
+                if (char_ist[i].team != team) {
+
+                    // ottiene più esperienza se il nemico è livello più alto
+                    let multiplier = Math.max(1, Math.sqrt(character.level / char_ist[i].level));
+                    let gain_exp = Math.floor(20 * character.level * multiplier);
+
+                    // se sconfitti prendono metà dell'esperienza
+                    if (char_ist[i].stats_instance.hp <= 0) {
+                        gain_exp = Math.floor(gain_exp / 2);
+                    }
+                    char_ist[i].exp += gain_exp;
+
+                    check_level_up(char_ist[i]);
+                }
+            }
+        }
+    });
 }
 
 
