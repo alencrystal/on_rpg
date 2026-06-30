@@ -1,13 +1,16 @@
 import { add_to_field, create_character,add_attack } from './utils/create_pg.js';
 import lv_up from './utils/level_up.js';
-import attack from './utils/attack.js';
-import switch_position from './utils/position.js';
+import choose_move from './utils/attack.js';
+import { switch_position, battle_order_update, next_turn } from './utils/position_turn.js';
 import alter_stat from './utils/edit_stat.js';
 import check_level_up from './utils/level_up.js';
 let field1 = [];
 
 let num_char = 0;
 export let char_ist = [];
+
+export let battle_order = [];
+
 
 //creazione 2 team
 for (let i = 0; i < 2; i++){
@@ -27,25 +30,22 @@ for (let i = 0; i < 2; i++){
     }  
 }
 
+battle_order_update();
 
 //lv_up(char_ist[0]);
 
 
-char_ist[0].exp = 10000;
+await next_turn();
 
 
-console.log(char_ist[0]);
-//console.log(char_ist);
 
-check_level_up(char_ist[0]);
-
-console.log(char_ist[0]);
 
 //personaggio, statistica, valore%, operazione
 //alter_stat(char_ist[0], "atk", 50, "sub");
 
 //attacker, defender, slot
 //attack(char_ist[0], char_ist[1], 0);
+
 
 //personaggio, posizione
 //switch_position(char_ist[2], 0);

@@ -1,9 +1,14 @@
 import { createRequire } from 'module';
-import { char_ist } from '../script.js';
+import { char_ist, battle_order } from '../script.js';
+import { battle_order_update } from './position_turn.js';
+import { createInterface } from 'node:readline/promises';
+import { stdin as input, stdout as output } from 'node:process';
 
 const require = createRequire(import.meta.url);
 const types = require('../data/types.json');
 const moves = require('../data/moves.json');
+
+const rl = createInterface({ input, output });
 
 function damage_calc(attacker, defender, attack_slot) {
     let multiplier = 1;
@@ -48,8 +53,13 @@ function attack(attacker, defender, attack_slot) {
     const damage = damage_calc(attacker, defender, attack_slot);
     defender.stats_instance.hp -= damage;
 
+    console.log(defender.name + " has taken " + damage + " damage");
+
     char_ist[defender.id_instance] = defender;
 
+    battle_order[attacker.id_instance].has_turn = false;
+
+    battle_order_update();
     check_defeat();
 }
 
@@ -80,5 +90,28 @@ function check_defeat() {
     });
 }
 
+async function choose_move(id){
+    console.log("Choose a move for " + char_ist[id].name + " ( " + char_ist[id].id_instance + " )");
+    
+    char_ist[id].moves.forEach((moveId, i) => {
+        let move = moves.find(m => m.id === moveId);
+        console.log(i + ": " + move.name + " ( "+ move.power + " " + move.type + " )");
+    });
 
-export default attack ;
+    let selectedMove = await askNumber("select move: ");
+
+    for (let i = 0; i < char_ist.length; i++) {
+        console.log(i + ": " + char_ist[i].name + " ( " + char_ist[i].stats_instance.hp + "/" + char_ist[i].stats_instance.max_hp + " HP) " + char_ist[i].team);
+    }
+    let target = await askNumber("target: ");
+
+    attack(char_ist[id], char_ist[target], selectedMove);
+
+}
+
+export async function askNumber(prompt) {
+  const risposta = await rl.question(prompt);
+  return Number(risposta);
+}
+
+export default choose_move;
