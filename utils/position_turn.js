@@ -30,17 +30,24 @@ export function battle_order_update(){
 
 export async function next_turn(){
 
-    for (let i = 0; i < battle_order.length; i++) {
-        if (battle_order[i].has_turn) {
+    // aggiona l'ordine di battaglia in base alla velocità
+    battle_order_update();
 
-            await choose_move(battle_order[i].id);
-            return;
-        }
-        else{
-            for (let j = 0; j < battle_order.length; j++) {
-                battle_order[j].has_turn = true;
-            }
-        }
-}
+    for (let i = 0; i < battle_order.length; i++) {
+        // Salta chi ha già usato il proprio turno in questo round.
+        if (!battle_order[i].has_turn) continue;
+
+        // Chiede la mossa per il personaggio e aspetta l'esecuzione.
+        await choose_move(battle_order[i].id);
+        return;
+    }
+
+    // Reset dei turni per iniziare un nuovo round di azioni.
+    for (let j = 0; j < battle_order.length; j++) {
+        battle_order[j].has_turn = true;
+    }
+
+    // Richiama per iniziare immediatamente il round successivo.
+    return await next_turn();
 }
 

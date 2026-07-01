@@ -3,6 +3,8 @@ import { char_ist, battle_order } from '../script.js';
 import { battle_order_update } from './position_turn.js';
 import { createInterface } from 'node:readline/promises';
 import { stdin as input, stdout as output } from 'node:process';
+import check_level_up from './level_up.js';
+import chalk from 'chalk';
 
 const require = createRequire(import.meta.url);
 const types = require('../data/types.json');
@@ -53,11 +55,15 @@ function attack(attacker, defender, attack_slot) {
     const damage = damage_calc(attacker, defender, attack_slot);
     defender.stats_instance.hp -= damage;
 
-    console.log(defender.name + " has taken " + damage + " damage");
+    console.log(chalk.magenta(defender.name + " has taken " + damage + " damage"));
 
     char_ist[defender.id_instance] = defender;
 
-    battle_order[attacker.id_instance].has_turn = false;
+    // Usa l'id del personaggio per trovare l'entry corretta in battle_order.
+    const orderEntry = battle_order.find(entry => entry.id === attacker.id_instance);
+    if (orderEntry) {
+        orderEntry.has_turn = false;
+    }
 
     battle_order_update();
     check_defeat();
@@ -65,10 +71,10 @@ function attack(attacker, defender, attack_slot) {
 
 function check_defeat() {
     char_ist.forEach((character) => {
-        if (character.stats_instance.hp <= 0) {
+        if (character.stats_instance.hp <= 0 && character.alive) {
 
             const team = character.team;
-            console.log(character.name + " is defeated!");
+            console.log(chalk.bold.yellow(character.name + " is defeated!"));
 
             for (let i = 0; i < char_ist.length; i++) {
                 if (char_ist[i].team != team) {
@@ -86,31 +92,42 @@ function check_defeat() {
                     check_level_up(char_ist[i]);
                 }
             }
+            // Imposta lo stato del personaggio come non vivo
+            character.alive = false;
         }
     });
 }
 
 async function choose_move(id){
-    console.log("Choose a move for " + char_ist[id].name + " ( " + char_ist[id].id_instance + " )");
+    console.log(chalk.bgCyan("Choose a move for " + char_ist[id].name + " ( " + char_ist[id].id_instance + " )\n"));
     
     char_ist[id].moves.forEach((moveId, i) => {
         let move = moves.find(m => m.id === moveId);
-        console.log(i + ": " + move.name + " ( "+ move.power + " " + move.type + " )");
+        console.log(chalk.italic("    " + i + ": " + move.name + " ( "+ move.power + " " + move.type + " )"));
     });
 
-    let selectedMove = await askNumber("select move: ");
+    let selectedMove = await askNumber("\nSelect move: ");
 
+    console.log("\n".repeat(process.stdout.rows));
+    console.log(chalk.bgCyan("Choose the target between"));
     for (let i = 0; i < char_ist.length; i++) {
-        console.log(i + ": " + char_ist[i].name + " ( " + char_ist[i].stats_instance.hp + "/" + char_ist[i].stats_instance.max_hp + " HP) " + char_ist[i].team);
+
+        if (char_ist[i].alive === false) {
+            console.log(chalk.dim(i + ": " + char_ist[i].name));
+        }
+        else{
+            console.log(i + ": " + char_ist[i].name + " ( " + char_ist[i].stats_instance.hp + "/" + char_ist[i].stats_instance.max_hp + " HP) " + char_ist[i].team);
+        }
     }
-    let target = await askNumber("target: ");
+    let target = await askNumber("\nTarget: ");
+    console.log("\n".repeat(process.stdout.rows));
 
     attack(char_ist[id], char_ist[target], selectedMove);
 
 }
 
 export async function askNumber(prompt) {
-  const risposta = await rl.question(prompt);
+  const risposta = await rl.question(chalk.gray(prompt));
   return Number(risposta);
 }
 

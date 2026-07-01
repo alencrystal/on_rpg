@@ -1,5 +1,6 @@
 import { createRequire } from 'module';
 import { char_ist } from '../script.js';
+import chalk from 'chalk';
 
 const require = createRequire(import.meta.url);
 const Characters = require('../data/characters.json');
@@ -31,6 +32,7 @@ function lv_up(character) {
 function check_level_up(character){
   while (character.exp >= character.level ** 2 * 75) {
     lv_up(character);
+    console.log(chalk.bgGreen.bold(character.name +"has leveled up to" + character.level));
   }
 }
 

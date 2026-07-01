@@ -41,7 +41,9 @@ function create_character(id = -1) {
     stats_instance: {max_hp: new_character.stats.hp, ...new_character.stats },
     position: 0,
     team: 0,
-    moves: []
+    moves: [],
+    alive: true,
+    crisis: false
   };
 }
 

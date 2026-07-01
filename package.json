@@ -9,6 +9,8 @@
   },
   "keywords": [],
   "author": "alen_crystal",
-  "license": "ISC"
-  
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^5.6.2"
+  }
 }
