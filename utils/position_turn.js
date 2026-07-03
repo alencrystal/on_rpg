@@ -34,8 +34,8 @@ export async function next_turn(){
     battle_order_update();
 
     for (let i = 0; i < battle_order.length; i++) {
-        // Salta chi ha già usato il proprio turno in questo round.
-        if (!battle_order[i].has_turn) continue;
+        // Salta chi ha già usato il proprio turno in questo round o chi è morto.
+        if (!battle_order[i].has_turn || char_ist[battle_order[i].id].alive === false) continue;
 
         // Chiede la mossa per il personaggio e aspetta l'esecuzione.
         await choose_move(battle_order[i].id);
