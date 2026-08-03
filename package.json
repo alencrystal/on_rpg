@@ -5,7 +5,8 @@
   "main": "script.js",
   "description": "",
   "scripts": {
-    "start": "node script.js"
+    "start": "node script.js",
+    "setup": "npm install"
   },
   "keywords": [],
   "author": "alen_crystal",

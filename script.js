@@ -29,9 +29,10 @@ for (let i = 0; i < 2; i++){
         char_ist.push(character);
         [field1, character] = add_to_field(field1, character, i);
 
-        add_attack(char_ist[num_char]);
-        add_attack(char_ist[num_char]);
-
+        for (let k = 0; k < 2; k++){
+            add_attack(char_ist[num_char]);
+        }
+        add_attack(char_ist[num_char], 30);
         num_char++;
     }  
 }

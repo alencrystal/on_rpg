@@ -28,6 +28,11 @@ function alter_stat(character, item, value, operation = "add"){
     // 1 solo decimale (bugfix calcolo)
     character.stats_instance[item] = Number(character.stats_instance[item].toFixed(1));
 
+    // Check if the stat is HP and if it exceeds max HP
+    if (item === "hp" && character.stats_instance.hp > character.stats_instance.max_hp) {
+        character.stats_instance.hp = character.stats_instance.max_hp;
+    }
+
     char_ist[character.id_instance] = character;
     
 }
