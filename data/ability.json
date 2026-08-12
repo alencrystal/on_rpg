@@ -1,0 +1,103 @@
+[
+    {
+    "id": 0,
+    "name": "Helpful",
+    "description": "Boost all the stats of the allies by 2% except for their health."
+    },
+    {
+    "id": 1,
+    "name": "Silent Steps",
+    "description": "Boost damage by 15% against enemy in crisis."
+    },
+    {
+    "id": 2,
+    "name": "Positivity",
+    "description": "This character can't go in crisis. ally in crisis heal 2% of their max health every turn."
+    },
+    {
+    "id": 3,
+    "name": "kind heart",
+    "description": "Healing, shield and buff are 15% stronger."
+    },
+    {
+    "id": 4,
+    "name": "Iron Will",
+    "description": "every hit taken boost a random stat by 7%."
+    },
+    {
+    "id": 5, 
+    "name": "Sharp mind",
+    "description": "boost magic defense by 15%."
+    },
+    {
+    "id": 6,
+    "name": "Knight's honor",
+    "description": "Boost defense by 15%."
+    },
+    {
+    "id": 7,
+    "name": "Overgrowth",
+    "description": "Boost health by 15%."
+    },
+    {
+    "id": 8,
+    "name": "Beast knight",
+    "description": "While in crisis, boost attack and magic attack by 10%."
+    },
+    {    
+    "id": 9,
+    "name": "Never give up",
+    "description": "While in crisis, boost all stats by 5% except for Health."
+    },
+    {
+    "id": 10,
+    "name": "Wind's favor",
+    "description": "Boost speed by 15%."
+    },
+    {
+    "id": 11,
+    "name": "Bug lord",
+    "description": "Boost grass and wind attacks by 15%."
+    },
+    {
+    "id": 12,
+    "name": "Omen of the forest",
+    "description": "Reduce enemies speed by 5%."
+    },
+    {
+    "id": 13,
+    "name": "Tenacity",
+    "description": "While in crisis, boost defense and magic defense by 10%."
+    },
+    {
+    "id": 14,
+    "name": "Fire!!",
+    "description": "Boost fire attack by 20%."
+    },
+    {
+    "id": 15,
+    "name": "Rank SSS",
+    "description": "Once per battle, survive a fatal hit with 1 HP. After surviving, boost all stats by 6%."
+    },
+    {
+    "id": 16,
+    "name": "Basic of magic",
+    "description": "Boost fire, grass and water attack by 5%. Reduce fire, grass, water damage taken by 10%."
+    },
+    {
+    "id": 17,
+    "name": "lost forest's breath",
+    "description": "Boost attack by 10%, While in crisis instead Boost defence by 5% and heal 5% of their max health every turn."
+    },
+    {
+    "id": 18,
+    "name": "Dark aura",
+    "description": "Boost dark attack by 20%."
+    },
+    {
+    "id": 19,
+    "name": "Divine blessing",
+    "description": "Heals every turn for 8% of max health."   
+    }
+
+]
