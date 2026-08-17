@@ -218,6 +218,20 @@ function check_ability(char_id = -1, ability_type, defender = null, attack = nul
                     const stat = ["max_hp", "hp", "atk", "def", "matk", "mdef", "spd"]
                     alter_stat(char_ist[char_id], stat[random_stat], 7, "add");
                     break;
+
+                // rank sss
+                case 15:
+                    if (char_ist[char_id].stat_istance.hp <= 0 && char_ist[char_id].alive && !char_ist[char_id].actived_ability) {
+                        char_ist[char_id].stat_istance.hp = 1;
+                        char_ist[char_id].actived_ability = true;
+                        alter_stat(char_ist[char_id], "max_hp", 6, "add");
+                        alter_stat(char_ist[char_id], "atk", 6, "add");
+                        alter_stat(char_ist[char_id], "matk", 6, "add");
+                        alter_stat(char_ist[char_id], "def", 6, "add");
+                        alter_stat(char_ist[char_id], "mdef", 6, "add");
+                        alter_stat(char_ist[char_id], "spd", 6, "add");
+                    }
+                    break;
                 
                 // basic of magic
                 case 16:

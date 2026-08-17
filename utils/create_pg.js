@@ -43,7 +43,8 @@ function create_character(id = -1) {
     team: 0,
     moves: [],
     alive: true,
-    crisis: false
+    crisis: false,
+    actived_ability: false
   };
 }
 
