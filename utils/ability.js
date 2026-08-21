@@ -243,7 +243,6 @@ function check_ability(char_id = -1, ability_type, defender = null, attack = nul
             break;
 
         case "death":
-            // rank SSS
             break;
     }
         

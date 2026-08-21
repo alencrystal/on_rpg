@@ -17,7 +17,7 @@ function assignArchetype(character) {
   };
 }
 
-// Se id è -1, crea un personaggio casuale
+// If id is -1, create a random character
 function create_character(id = -1) {
 
   let new_character;
@@ -29,7 +29,7 @@ function create_character(id = -1) {
     new_character = Characters.find(c => c.id === id);
   }
 
-  // Assegna archetype casuale
+  // Assign a random archetype
   const char_arch = assignArchetype({ ...new_character });
 
   return {
@@ -73,7 +73,7 @@ function add_attack(character, move_id = -1){
     return;
   }
 
-  //attacco random con priorità di tipo (70%) e fallback casuale (30%)
+  // Random attack with type priority (70%) and random fallback (30%)
   if (move_id === -1) {
     const available_moves = moves.filter(move => !character.moves.includes(move.id));
 
@@ -85,11 +85,11 @@ function add_attack(character, move_id = -1){
         }
       });
     });
-    //rimuove le mosse prioritarie da avaiblesMoves
+    // Remove priority moves from available_moves
     const unique_prio_moves = [...new Set(prio_moves.map(move => move.id))]
       .map(id => available_moves.find(move => move.id === id));
 
-    // seleziona una mossa con priorità del 70% e casuale al 30%
+    // Select a priority move 70% of the time and a random move 30% of the time
     const shouldUsePriorityMove = Math.random() < 0.7;
     const candidate_moves = shouldUsePriorityMove ? unique_prio_moves : available_moves;
     const random_int = Math.floor(Math.random() * candidate_moves.length);

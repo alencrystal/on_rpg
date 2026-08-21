@@ -12,16 +12,16 @@ export let char_ist = [];
 export let battle_order = [];
 
 
-// Controlla se la battaglia è finita: rimane una sola squadra viva.
+// Check whether the battle is over: only one team remains alive.
 function battleOver() {
     const aliveTeams = new Set(char_ist.filter(c => c.stats_instance.hp > 0).map(c => c.team));
     return aliveTeams.size <= 1;
 }
 
-//creazione 2 team
+// Create two teams
 for (let i = 0; i < 2; i++){
 
-    //creazione di 3 personaggi per team
+    // Create three characters per team
     for (let j = 0; j < 3; j++){
         let character = "character" + num_char;
         character = create_character();
@@ -39,7 +39,7 @@ for (let i = 0; i < 2; i++){
 
 battle_order_update();
 
-// ciclo di battaglia
+// Battle loop
 while (!battleOver()) {
     await next_turn();
 }
@@ -52,14 +52,14 @@ console.log('Battle ended');
 
 
 
-//personaggio, statistica, valore%, operazione
+//character, statistic, percentage value, operation
 //alter_stat(char_ist[0], "atk", 50, "sub");
 
 //attacker, defender, slot
 //attack(char_ist[0], char_ist[1], 0);
 
 
-//personaggio, posizione
+//character, position
 //switch_position(char_ist[2], 0);
 
 // console.log(char_ist);

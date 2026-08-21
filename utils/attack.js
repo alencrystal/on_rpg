@@ -49,7 +49,7 @@ function damage_calc(attacker, defender, attack_slot) {
         stab,
     ) + 1;
 
-  //gestione immunità
+  // Handle immunities
   if (multiplier === 0) damage = 0;
 
   if (multiplier > 1) {
@@ -111,7 +111,7 @@ function attack(attacker, defender, attack_slot) {
   }
   char_ist[defender.id_instance] = defender;
 
-  // Usa l'id del personaggio per trovare l'entry corretta in battle_order.
+  // Use the character's ID to find the correct entry in battle_order.
   const orderEntry = battle_order.find(
     (entry) => entry.id === attacker.id_instance,
   );
@@ -131,14 +131,14 @@ function check_defeat() {
 
       for (let i = 0; i < char_ist.length; i++) {
         if (char_ist[i].team != team) {
-          // ottiene più esperienza se il nemico è livello più alto
+          // Gain more experience if the enemy is a higher level
           let multiplier = Math.max(
             1,
             Math.sqrt(character.level / char_ist[i].level),
           );
           let gain_exp = Math.floor(20 * character.level * multiplier);
 
-          // se sconfitti prendono metà dell'esperienza
+          // Defeated characters receive half the experience
           if (char_ist[i].stats_instance.hp <= 0) {
             gain_exp = Math.floor(gain_exp / 2);
           }
@@ -154,7 +154,7 @@ function check_defeat() {
           check_level_up(char_ist[i]);
         }
       }
-      // Imposta lo stato del personaggio come non vivo
+      // Set the character's status to not alive
       character.alive = false;
     }
   });

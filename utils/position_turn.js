@@ -16,38 +16,38 @@ export function switch_position(character, new_position) {
 
 export function battle_order_update(){
 
-    // se non è ancora presente l'ordine lo crea
+    // Create the order if it does not exist yet
     if (battle_order.length === 0) {
         for (let i = 0; i < char_ist.length; i++) {
             battle_order.push({id: char_ist[i].id_instance, spd: char_ist[i].stats_instance.spd, has_turn: true});
         }
     }
 
-    // aggiornamento dell'ordine dei personaggi
+    // Update the character order
     battle_order.sort((a, b) => b.spd - a.spd);
 
 }
 
 export async function next_turn(){
 
-    // aggiona l'ordine di battaglia in base alla velocità
+    // Update the battle order based on speed
     battle_order_update();
 
     for (let i = 0; i < battle_order.length; i++) {
-        // Salta chi ha già usato il proprio turno in questo round o chi è morto.
+        // Skip characters that have already taken their turn this round or are dead.
         if (!battle_order[i].has_turn || char_ist[battle_order[i].id].alive === false) continue;
 
-        // Chiede la mossa per il personaggio e aspetta l'esecuzione.
+        // Request the character's move and wait for its execution.
         await choose_move(battle_order[i].id);
         return;
     }
 
-    // Reset dei turni per iniziare un nuovo round di azioni.
+    // Reset turns to start a new action round.
     for (let j = 0; j < battle_order.length; j++) {
         battle_order[j].has_turn = true;
     }
 
-    // Richiama per iniziare immediatamente il round successivo.
+    // Call again to start the next round immediately.
     return await next_turn();
 }
 

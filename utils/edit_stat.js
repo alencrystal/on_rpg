@@ -25,7 +25,7 @@ function alter_stat(character, item, value, operation = "add"){
         console.log(character.name + ' ha resettato ' + item);
     }
 
-    // 1 solo decimale (bugfix calcolo)
+    // Keep only one decimal place (calculation bug fix)
     character.stats_instance[item] = Number(character.stats_instance[item].toFixed(1));
 
     // Check if the stat is HP and if it exceeds max HP
