@@ -4,6 +4,7 @@ import choose_move from './utils/attack.js';
 import { switch_position, battle_order_update, next_turn } from './utils/position_turn.js';
 import alter_stat from './utils/edit_stat.js';
 import check_level_up from './utils/level_up.js';
+import { check_ability, check_crisis } from './utils/ability.js';
 let field1 = [];
 
 let num_char = 0;
@@ -37,6 +38,8 @@ for (let i = 0; i < 2; i++){
     }  
 }
 
+// -1 is for all character, starting ability
+check_ability(-1, "start_battle");
 battle_order_update();
 
 // Battle loop

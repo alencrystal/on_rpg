@@ -6,6 +6,7 @@ import alter_stat  from "./edit_stat.js";
 import { stdin as input, stdout as output } from "node:process";
 import check_level_up from "./level_up.js";
 import chalk from "chalk";
+import { check_ability, check_crisis } from "./ability.js";
 
 const require = createRequire(import.meta.url);
 const types = require("../data/types.json");
@@ -104,6 +105,7 @@ function attack(attacker, defender, attack_slot) {
         chalk.magenta(defender.name + " has taken " + damage + " damage" + "\n"),
         );
     }
+    check_crisis();
   }
   // Check if the move has an effect and apply it
   if (move.effect){
@@ -292,5 +294,6 @@ function move_effect(attacker, defender, effect) {
     }
 
 }
+
 
 export default choose_move;

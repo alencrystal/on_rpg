@@ -1,6 +1,7 @@
 import { createRequire } from 'module';
 import { char_ist, battle_order } from '../script.js';
 import choose_move from './attack.js';
+import { check_ability, check_crisis } from './ability.js';
 
 export function switch_position(character, new_position) {
     for (let i = 0; i < char_ist.length; i++) {
@@ -47,6 +48,8 @@ export async function next_turn(){
         battle_order[j].has_turn = true;
     }
 
+    // Call the ability check for end-of-turn effects.
+    check_ability(-1, "end_turn");
     // Call again to start the next round immediately.
     return await next_turn();
 }

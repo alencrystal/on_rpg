@@ -1,7 +1,9 @@
+import { createRequire } from "node:module";
 import { char_ist } from "../script.js";
 import chalk from "chalk";
 import alter_stat from "./edit_stat.js";
 
+const require = createRequire(import.meta.url);
 const moves = require("../data/moves.json");
 
 //id character, type ability, id istance of the defender, id of the attack used
@@ -15,6 +17,7 @@ function check_ability(char_id = -1, ability_type, defender = null, attack = nul
 
                         // helpfull
                         case 0:
+                            console.log(chalk.bold.magenta(char_ist[i].name + "'s ability helpfull has been activated!"));
                             for (let j = 0; j < char_ist.length; j++) {
                                 if (char_ist[j].team === char_ist[i].team) {
                                     alter_stat(char_ist[j], "atk", 2, "add");
@@ -28,27 +31,32 @@ function check_ability(char_id = -1, ability_type, defender = null, attack = nul
                         
                         // sharp mind
                         case 5:
+                            console.log(chalk.bold.magenta(char_ist[i].name + "'s ability sharp mind has been activated!"));
                             alter_stat(char_ist[i], "mdef", 15, "add");
                             break;
                         
                         // knight's honor
                         case 6:
+                            console.log(chalk.bold.magenta(char_ist[i].name + "'s ability knight's honor has been activated!"));
                             alter_stat(char_ist[i], "def", 15, "add");
                             break;
                         
                         // overgrowth
                         case 7:
+                            console.log(chalk.bold.magenta(char_ist[i].name + "'s ability overgrowth has been activated!"));
                             alter_stat(char_ist[i], "max_hp", 15, "add");
                             alter_stat(char_ist[i], "hp", 15, "add");
                             break;
                         
                         // wind's favor
                         case 10:
+                            console.log(chalk.bold.magenta(char_ist[i].name + "'s ability wind's favor has been activated!"));
                             alter_stat(char_ist[i], "spd", 15, "add");
                             break;
                         
                         // omen of the forest
                         case 12:
+                            console.log(chalk.bold.magenta(char_ist[i].name + "'s ability omen of the forest has been activated!"));
                             for (let j = 0; j < char_ist.length; j++) {
                                 if (char_ist[j].team !== char_ist[i].team) {
                                     alter_stat(char_ist[j], "spd", 5, "sub");
@@ -58,11 +66,11 @@ function check_ability(char_id = -1, ability_type, defender = null, attack = nul
                         
                         // lost forest's breath
                         case 17:
+                            console.log(chalk.bold.magenta(char_ist[i].name + "'s ability lost forest's breath has been activated!"));
                             alter_stat(char_ist[i], "atk", 10, "add");
                             break;
 
                     }
-
                 }
             break;
 
@@ -83,6 +91,7 @@ function check_ability(char_id = -1, ability_type, defender = null, attack = nul
 
                         // positivity
                         case 2:
+                            console.log(chalk.bold.magenta(char_ist[i].name + "'s ability positivity has been activated!"));
                             for (let j = 0; j < char_ist.length; j++) {
                                 if (char_ist[j].team === char_ist[i].team) {
                                     alter_stat(char_ist[j], "hp", 2, "add");
@@ -93,12 +102,14 @@ function check_ability(char_id = -1, ability_type, defender = null, attack = nul
                         // lost forest's breath
                         case 17:
                             if (char_ist[i].crisis === true) {
+                                console.log(chalk.bold.magenta(char_ist[i].name + "'s ability lost forest's breath has been activated!"));
                                 alter_stat(char_ist[i], "hp", 5, "add");
                             }
                             break;
 
                         // divine blessing
                         case 19:
+                            console.log(chalk.bold.magenta(char_ist[i].name + "'s ability divine blessing has been activated!"));
                             alter_stat(char_ist[i], "hp", 8, "add");
                             break;
                         
@@ -209,6 +220,7 @@ function check_ability(char_id = -1, ability_type, defender = null, attack = nul
                     break;
             }
             break;
+            
         case "defense":
             switch (char_ist[char_id].ability) {
 
@@ -248,7 +260,36 @@ function check_ability(char_id = -1, ability_type, defender = null, attack = nul
         
     return item;
 }
-    
 
 
-export default check_ability();
+function check_crisis(char_id = -1){
+
+    if (char_id === -1) {
+        for (let i = 0; i < char_ist.length; i++) {
+            if (char_ist[i].stats_instance.hp <= char_ist[i].stats_instance.max_hp * 0.5 && !char_ist[i].crisis) {
+                char_ist[i].crisis = true;
+                console.log(chalk.bold.bgRed(char_ist[i].name + " is in crisis!"));
+                check_ability(i, "crisis");
+            } 
+            else if (char_ist[i].stats_instance.hp > char_ist[i].stats_instance.max_hp * 0.5 && char_ist[i].crisis) {
+                char_ist[i].crisis = false;
+                console.log(chalk.bold.bgWhite(char_ist[i].name + " is not in crisis anymore!"));
+                check_ability(i, "exit_crisis");
+            }
+        }
+        return;
+    }
+    if (char_ist[char_id].stats_instance.hp <= char_ist[char_id].stats_instance.max_hp * 0.5 && !char_ist[char_id].crisis) {
+                char_ist[char_id].crisis = true;
+                console.log(chalk.bold.bgRed(char_ist[char_id].name + " is in crisis!"));
+                check_ability(char_id, "crisis");
+        } 
+    else if (char_ist[char_id].stats_instance.hp > char_ist[char_id].stats_instance.max_hp * 0.5 && char_ist[char_id].crisis) {
+                char_ist[char_id].crisis = false;
+                console.log(chalk.bold.bgWhite(char_ist[char_id].name + " is not in crisis anymore!"));
+                check_ability(char_id, "exit_crisis");
+        }
+
+}
+
+export { check_ability, check_crisis };
