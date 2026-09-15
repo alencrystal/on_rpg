@@ -21,6 +21,8 @@ function damage_calc(attacker, defender, attack_slot) {
   let atk_use, def_use;
   let levelFactor = attacker.level;
   let stab = 1;
+  let ability_multiplier = 1;
+  let ability_resistence = 1;
 
   //effectiveness
   defender.type.forEach((defType) => {
@@ -29,10 +31,14 @@ function damage_calc(attacker, defender, attack_slot) {
     }
   });
 
-  //stab
+  //stab (same type attack bonus) 30%
   if (attacker.type.includes(move.type)) {
     stab = 1.3;
   }
+
+  // ablity of the attacker and defender
+  ability_multiplier += (check_ability(attacker.id_instance, "attack", defender, move)) * 0.01;
+  ability_resistence -= (check_ability(defender.id_instance, "defense", attacker, move)) * 0.01;
 
   if (move.category === "physical") {
     atk_use = attacker.stats_instance.atk;
@@ -47,7 +53,9 @@ function damage_calc(attacker, defender, attack_slot) {
     Math.floor(
       ((move.power * (atk_use / def_use) * levelFactor) / 4) *
         multiplier *
-        stab,
+        stab *
+        ability_multiplier *
+        ability_resistence,
     ) + 1;
 
   // Handle immunities
@@ -75,10 +83,14 @@ function attack(attacker, defender, attack_slot) {
 
             const damage = damage_calc(attacker, char_ist[i], attack_slot);
             char_ist[i].stats_instance.hp -= damage;
+            normalize_hp(char_ist[i]);
 
             console.log(
                 chalk.magenta(char_ist[i].name + " has taken " + damage + " damage" + "\n"),
             );
+
+            //check ability of the defender
+            check_ability(char_ist[i].id_instance, "hit", attacker, move);
         }
         }
     } 
@@ -90,20 +102,28 @@ function attack(attacker, defender, attack_slot) {
 
             const damage = damage_calc(attacker, char_ist[i], attack_slot);
             char_ist[i].stats_instance.hp -= damage;
+            normalize_hp(char_ist[i]);
 
             console.log(
                 chalk.magenta(char_ist[i].name + " has taken " + damage + " damage" + "\n"),
             );
+
+            //check ability of the defender
+            check_ability(char_ist[i].id_instance, "hit", attacker, move);
         }
     }
     else{
 
         const damage = damage_calc(attacker, defender, attack_slot);
         defender.stats_instance.hp -= damage;
+        normalize_hp(defender);
 
         console.log(
         chalk.magenta(defender.name + " has taken " + damage + " damage" + "\n"),
         );
+
+        //check ability of the defender
+        check_ability(defender.id_instance, "hit", attacker, move);
     }
     check_crisis();
   }
@@ -293,6 +313,11 @@ function move_effect(attacker, defender, effect) {
             break;
     }
 
+}
+
+//to fix some error in the damage calc
+function normalize_hp(character) {
+  character.stats_instance.hp = Number(character.stats_instance.hp.toFixed(1));
 }
 
 

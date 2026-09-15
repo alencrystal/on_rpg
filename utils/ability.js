@@ -6,10 +6,10 @@ import alter_stat from "./edit_stat.js";
 const require = createRequire(import.meta.url);
 const moves = require("../data/moves.json");
 
-//id character, type ability, id istance of the defender, id of the attack used
+//id character, type ability, id istance of the defender, the attack used
 function check_ability(char_id = -1, ability_type, defender = null, attack = null){
     //all the value could be used thanks to ability
-    let item;
+    let item = 0;
     switch (ability_type) {
         case "start_battle":
                 for (let i = 0; i < char_ist.length; i++) {
@@ -186,56 +186,71 @@ function check_ability(char_id = -1, ability_type, defender = null, attack = nul
 
                 //silent steps
                 case 1:
-                    if (char_ist[defender].crisis === true) {
+                    if (defender.crisis === true) {
                         item = 15;
                     }
                     break;
                 
                 // bug lord
                 case 11:
-                    if (moves.id[attack].type === "wind" || moves.id[attack].type === "grass") {
+                    if (attack.type === "wind" || attack.type === "grass") {
                         item = 15;
                     }
                     break;
 
                 // fire!!
                 case 14:
-                    if (moves.id[attack].type === "fire") {
+                    if (attack.type === "fire") {
                         item = 20;
                     }
                     break;
                 
                 // basic of magic
                 case 16:
-                    if (moves.id[attack].type === "fire" || moves.id[attack].type === "grass" || moves.id[attack].type === "water") {
+                    if (attack.type === "fire" || attack.type === "grass" || attack.type === "water") {
                         item = 5;
                     }
                     break;
 
                 // dark aura
                 case 18:
-                    if (moves.id[attack].name.toLowerCase().includes("dark")) {
+                    if (attack.name.toLowerCase().includes("dark")) {
                         item = 20;
                     }
                     break;
             }
             break;
-            
+        
+        //before taking the hit
         case "defense":
             switch (char_ist[char_id].ability) {
+                
+                // basic of magic
+                case 16:
+                    if (attack.type === "fire" || attack.type === "grass" || attack.type === "water") {
+                        item = 10;
+                    }
+                    break;
+            }
+            break;
+
+        //after taked the hit
+        case "hit":
+             switch (char_ist[char_id].ability) {
 
                 // iron will
                 case 4:
-                    const random_stat = Math.floor(Math.random() * 7) + 1;
+                    const random_stat = Math.floor(Math.random() * 7);
                     const stat = ["max_hp", "hp", "atk", "def", "matk", "mdef", "spd"]
                     alter_stat(char_ist[char_id], stat[random_stat], 7, "add");
                     break;
 
                 // rank sss
                 case 15:
-                    if (char_ist[char_id].stat_istance.hp <= 0 && char_ist[char_id].alive && !char_ist[char_id].actived_ability) {
-                        char_ist[char_id].stat_istance.hp = 1;
+                    if (char_ist[char_id].stats_instance.hp <= 0 && char_ist[char_id].alive && !char_ist[char_id].actived_ability) {
+                        char_ist[char_id].stats_instance.hp = 1;
                         char_ist[char_id].actived_ability = true;
+                        console.log(chalk.bold.bgWhite(char_ist[char_id].name + ": is not over yet!"));
                         alter_stat(char_ist[char_id], "max_hp", 6, "add");
                         alter_stat(char_ist[char_id], "atk", 6, "add");
                         alter_stat(char_ist[char_id], "matk", 6, "add");
@@ -244,14 +259,7 @@ function check_ability(char_id = -1, ability_type, defender = null, attack = nul
                         alter_stat(char_ist[char_id], "spd", 6, "add");
                     }
                     break;
-                
-                // basic of magic
-                case 16:
-                    if (moves.id[attack].type === "fire" || moves.id[attack].type === "grass" || moves.id[attack].type === "water") {
-                        item = 10;
-                    }
-                    break;
-            }
+                }
             break;
 
         case "death":
