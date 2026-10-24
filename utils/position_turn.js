@@ -1,4 +1,3 @@
-import { createRequire } from 'module';
 import { char_ist, battle_order } from '../script.js';
 import choose_move from './attack.js';
 import { check_ability, check_crisis } from './ability.js';

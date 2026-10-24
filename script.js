@@ -1,10 +1,26 @@
 import { add_to_field, create_character,add_attack } from './utils/create_pg.js';
-import lv_up from './utils/level_up.js';
 import choose_move from './utils/attack.js';
 import { switch_position, battle_order_update, next_turn } from './utils/position_turn.js';
 import alter_stat from './utils/edit_stat.js';
 import check_level_up from './utils/level_up.js';
 import { check_ability, check_crisis } from './utils/ability.js';
+
+// ===== Aggancia console.log al div .terminale =====
+const terminalEl = document.querySelector('.terminale');
+
+function print(...args) {
+    if (!terminalEl) return;
+    terminalEl.textContent += args.join(' ') + '\n';
+    terminalEl.scrollTop = terminalEl.scrollHeight;   // auto-scroll in fondo
+}
+
+const _originalLog = console.log;
+console.log = function (...args) {
+    _originalLog.apply(console, args);   // continua a stampare in Console (debug)
+    print(...args);                      // e scrive nel .terminale
+};
+
+
 let field1 = [];
 
 let num_char = 0;
@@ -41,6 +57,8 @@ for (let i = 0; i < 2; i++){
 // -1 is for all character, starting ability
 check_ability(-1, "start_battle");
 battle_order_update();
+console.log("Battle started!\n");
+// console.log(JSON.stringify(char_ist[0], null, 2))
 
 // Battle loop
 while (!battleOver()) {

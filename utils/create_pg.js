@@ -1,9 +1,6 @@
-import { createRequire } from 'module';
-
-const require = createRequire(import.meta.url);
-const Characters = require('../data/characters.json');
-const Archetypes = require('../data/archetypes.json');
-const moves = require('../data/moves.json');
+import Characters from '../data/characters.json' with { type: 'json' };
+import Archetypes from '../data/archetypes.json' with { type: 'json' };
+import moves from '../data/moves.json' with { type: 'json' };
 
 let num_id_instance = 0;
 

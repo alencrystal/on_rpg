@@ -1,4 +1,3 @@
-import { createRequire } from 'module';
 import { char_ist } from '../script.js';
 
 function alter_stat(character, item, value, operation = "add"){
@@ -13,18 +12,18 @@ function alter_stat(character, item, value, operation = "add"){
         if (character.stats_instance[item] > base_stat * 4) {
             character.stats_instance[item] = base_stat * 4;
         }
-        console.log(character.name + ' ha ottenuto ' + alteration + ' ' + item);
+        console.log(character.name + ' ha ottenuto ' + alteration + ' ' + item + "\n");
 
     } else if (operation === "sub") {
         character.stats_instance[item] -= alteration;
         if (character.stats_instance[item] < base_stat / 4) {
             character.stats_instance[item] = base_stat / 4;
         }
-        console.log(character.name + ' ha perso ' + alteration + ' ' + item);
+        console.log(character.name + ' ha perso ' + alteration + ' ' + item+ "\n");
 
     } else if (operation === "reset") {
         character.stats_instance[item] = character.stats[item];
-        console.log(character.name + ' ha resettato ' + item);
+        console.log(character.name + ' ha resettato ' + item+ "\n");
     }
 
     // Keep only one decimal place (calculation bug fix)

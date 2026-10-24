@@ -1,10 +1,6 @@
-import { createRequire } from "module";
-import { char_ist } from "../script.js";
-import chalk from "chalk";
-
-const require = createRequire(import.meta.url);
-const Characters = require("../data/characters.json");
-const Archetypes = require("../data/archetypes.json");
+import Characters from '../data/characters.json' with { type: 'json' };
+import Archetypes from '../data/archetypes.json' with { type: 'json' };
+import { char_ist } from '../script.js';
 
 function lv_up(character) {
   const baseStats = Characters.find((c) => c.id === character.id).stats;
@@ -32,11 +28,7 @@ function lv_up(character) {
 function check_level_up(character) {
   while (character.exp >= character.level ** 2 * 75) {
     lv_up(character);
-    console.log(
-      chalk.bgGreen.bold(
-        character.name + " has leveled up to " + character.level,
-      ),
-    );
+    console.log(character.name + " has leveled up to " + character.level);
   }
 }
 
