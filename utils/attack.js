@@ -27,8 +27,10 @@ function damage_calc(attacker, defender, attack_slot) {
     stab = 1.3;
   }
 
-  ability_multiplier += check_ability(attacker.id_instance, "attack", defender, move) * 0.01;
-  ability_resistence -= check_ability(defender.id_instance, "defense", attacker, move) * 0.01;
+  ability_multiplier +=
+    check_ability(attacker.id_instance, "attack", defender, move) * 0.01;
+  ability_resistence -=
+    check_ability(defender.id_instance, "defense", attacker, move) * 0.01;
 
   if (move.category === "physical") {
     atk_use = attacker.stats_instance.atk;
@@ -98,7 +100,9 @@ function attack(attacker, defender, attack_slot) {
   }
   char_ist[defender.id_instance] = defender;
 
-  const orderEntry = battle_order.find((entry) => entry.id === attacker.id_instance);
+  const orderEntry = battle_order.find(
+    (entry) => entry.id === attacker.id_instance,
+  );
   if (orderEntry) {
     orderEntry.has_turn = false;
   }
@@ -115,8 +119,11 @@ function check_defeat() {
 
       for (let i = 0; i < char_ist.length; i++) {
         if (char_ist[i].team != team) {
-          let multiplier = Math.max(1, Math.sqrt(character.level / char_ist[i].level));
-          let gain_exp = Math.floor(20 * character.level * multiplier);
+          let multiplier = Math.max(
+            1,
+            Math.sqrt(character.level / char_ist[i].level),
+          );
+          let gain_exp = Math.floor(30 * character.level * multiplier);
 
           if (char_ist[i].stats_instance.hp <= 0) {
             gain_exp = Math.floor(gain_exp / 2);
@@ -137,23 +144,31 @@ function check_defeat() {
 async function choose_move(id) {
   updateCards(char_ist, id);
   console.log(
-    "Choose a move for " + char_ist[id].name + " ( " + char_ist[id].id_instance + " )\n", );
+    "Choose a move for " +
+      char_ist[id].name +
+      " ( " +
+      char_ist[id].id_instance +
+      " )\n",
+  );
 
   // Costruisci i 3 pulsanti delle mosse + slot extra vuoto (4°)
   const moveButtons = [];
 
   char_ist[id].moves.forEach((moveId, i) => {
     let move = moves.find((m) => m.id === moveId);
-    console.log("    " + move.name + " ( " + move.power + " " + move.type + " )", );
+    console.log(
+      "    " + move.name + " ( " + move.power + " " + move.type + " )",
+    );
     // Aggiungi il pulsante per la mossa, value è fuori così da usare l'indice della mossa selezionata
     moveButtons.push({
-      label: `${move.name} — ${move.power} ${move.type}`,
-      value: i
+      label: move.name,
+      value: i,
+      details: move,
     });
-    });
+  });
 
   // Riempio fino a 4 con slot vuoti (il 4° è lo switch)
-  moveButtons.push({ label: 'Switch (not working)', value: 'switch' });
+  moveButtons.push({ label: "Switch (not working)", value: "switch" });
 
   const selectedMove = await waitForButtons(moveButtons);
 
@@ -161,7 +176,7 @@ async function choose_move(id) {
   const targetButtons = [];
   for (let i = 0; i < char_ist.length; i++) {
     const c = char_ist[i];
-    const label = i + ": " + c.name + " ( " + c.stats_instance.hp + "/" + c.stats_instance.max_hp + " HP) team " + c.team;
+    const label = c.name;
 
     console.log(label);
     targetButtons.push({
@@ -200,7 +215,10 @@ function move_effect(attacker, defender, effect) {
         });
       } else if (effect.target === "allies") {
         char_ist.forEach((character) => {
-          if (character.team === attacker.team && character.id_instance !== attacker.id_instance) {
+          if (
+            character.team === attacker.team &&
+            character.id_instance !== attacker.id_instance
+          ) {
             alter_stat(character, effect.stat, effect.value, effect.operation);
           }
         });
@@ -222,7 +240,10 @@ function move_effect(attacker, defender, effect) {
         alter_stat(defender, "hp", effect.value, "add");
       } else if (effect.target === "allies") {
         char_ist.forEach((character) => {
-          if (character.team === attacker.team && character.id_instance !== attacker.id_instance) {
+          if (
+            character.team === attacker.team &&
+            character.id_instance !== attacker.id_instance
+          ) {
             alter_stat(character, "hp", effect.value, "add");
           }
         });

@@ -48,31 +48,33 @@ body {
 
 /* 6. I singoli quadrati placeholder */
 .quadrato {
-    flex: 1;
-    background-color: #ffffff;
-    border: 2px solid #999;
-    border-radius: 8px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    transition: border-color 0.2s, box-shadow 0.2s;
+  flex: 1;
+  background-color: #ffffff;
+  border: 2px solid #999;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 
 /* Turno attivo: bordo giallo acceso + alone */
 .quadrato.active {
-    border-color: #ffaa00;
-    box-shadow: 0 0 10px #ffaa00;
+  border-color: #ffaa00;
+  box-shadow: 0 0 10px #ffaa00;
 }
 
 /* Personaggio KO: scurito */
 .quadrato.ko {
-    filter: brightness(0.5) grayscale(0.7);
+  filter: brightness(0.5) grayscale(0.7);
 }
 
 /* 7. Il blocco terminale a destra */
 .terminale {
-  flex: 2; 
+  flex: 3;
   background-color: #1e1e1e;
   color: #00ff00;
   font-family: monospace;
@@ -85,126 +87,199 @@ body {
 
 /* 8. Lo spazio per i pulsanti */
 .area-pulsanti {
-    flex: 2;
-    min-height: 0;
-    background-color: #ffffff;
-    border: 2px dashed #999;
-    border-radius: 8px;
-    padding: 15px;
+  flex: 1;
+  min-height: 0;
+  background-color: #ffffff;
+  border: 2px dashed #999;
+  border-radius: 8px;
+  padding: 15px;
 
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(3, 1fr);   /* ← 3 righe sempre, fisse */
-    gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr); /* 2 righe */
+  gap: 10px;
 }
 
 .pulsante {
-    /* niente padding fisso: la dimensione la detta la cella del grid */
-    padding: 8px;
-    font-size: clamp(14px, 2vw, 22px);   /* testo che cresce con lo spazio */
-    text-align: center;
-    background-color: #f5f5f5;
-    border: 1px solid #888;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.15s;
+  /* niente padding fisso: la dimensione la detta la cella del grid */
+  padding: 8px;
+  font-size: clamp(14px, 2vw, 22px); /* testo che cresce con lo spazio */
+  text-align: center;
+  background-color: #f5f5f5;
+  border: 1px solid #888;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s;
 
-    /* centro il testo sia in orizzontale sia in verticale */
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  /* centro il testo sia in orizzontale sia in verticale */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    /* evita che testi lunghi sballino il layout */
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  /* Il tooltip deve poter uscire dai confini del pulsante senza essere tagliato. */
+  overflow: visible;
+  position: relative;
 }
 
 .pulsante:hover:not(:disabled) {
-    background-color: #e2e2e2;
+  background-color: #e2e2e2;
+}
+
+.pulsante-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pulsante-con-tooltip:hover,
+.pulsante-con-tooltip:focus-visible {
+  z-index: 2;
+}
+
+.pulsante-tooltip {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  width: max-content;
+  max-width: min(320px, 70vw);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border: 1px solid #555;
+  border-radius: 6px;
+  background-color: #1e1e1e;
+  color: #fff;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 30%);
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 1.35;
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  pointer-events: auto;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, 4px);
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease,
+    visibility 0.15s;
+}
+
+.pulsante-tooltip::after {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  background-color: #1e1e1e;
+  border-right: 1px solid #555;
+  border-bottom: 1px solid #555;
+  content: "";
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.pulsante-con-tooltip:hover:not(:disabled) .pulsante-tooltip,
+.pulsante-con-tooltip:focus-visible .pulsante-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+
+.pulsante-dettaglio-riga {
+  display: block;
 }
 
 .pulsante:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .pulsante.vuoto {
-    background-color: transparent;
-    border-style: dashed;
+  background-color: transparent;
+  border-style: dashed;
 }
 
 /* ===== Card del personaggio ===== */
 .card-sprite {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 1 / 1;   /* quadrata, si adatta alla larghezza */
-    background-color: #eee;
-    flex-shrink: 0;        /* non si comprime se lo spazio è poco */
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1; /* quadrata, si adatta alla larghezza */
+  background-color: #eee;
+  flex-shrink: 0; /* non si comprime se lo spazio è poco */
 }
 
 .card-sprite .sprite-fallback {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    color: #888;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #888;
 }
 
 .card-sprite img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .card-info {
-    flex: 1;
-    min-height: 0;
-    padding: 6px 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    font-size: clamp(10px, 1.1vw, 13px);
+  flex: 1;
+  min-height: 0;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: clamp(10px, 1.1vw, 13px);
 }
 
 .card-header {
-    display: flex;
-    justify-content: space-between;
-    font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
 }
 
 .card-sub {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.85em;
-    color: #555;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85em;
+  color: #555;
 }
 
 .bar {
-    height: 8px;
-    background-color: #e0e0e0;
-    border-radius: 4px;
-    overflow: hidden;
-    margin-top: 2px;
+  height: 8px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 2px;
 }
 
 .bar-fill {
-    height: 100%;
-    transition: width 0.3s;
+  height: 100%;
+  transition: width 0.3s;
 }
 
-.bar-hp .bar-fill { background-color: #4caf50; }
-.bar-hp.mid .bar-fill { background-color: #ff9800; }
-.bar-hp.low .bar-fill { background-color: #f44336; }
-.bar-exp .bar-fill { background-color: #2196f3; }
+.bar-hp .bar-fill {
+  background-color: #4caf50;
+}
+.bar-hp.mid .bar-fill {
+  background-color: #ff9800;
+}
+.bar-hp.low .bar-fill {
+  background-color: #f44336;
+}
+.bar-exp .bar-fill {
+  background-color: #2196f3;
+}
 
 .bar-label {
-    font-size: 0.75em;
-    color: #666;
-    margin-top: -1px;
+  font-size: 0.75em;
+  color: #666;
+  margin-top: -1px;
 }
-

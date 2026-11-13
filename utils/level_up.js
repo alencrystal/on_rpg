@@ -1,6 +1,6 @@
-import Characters from '../data/characters.json' with { type: 'json' };
-import Archetypes from '../data/archetypes.json' with { type: 'json' };
-import { char_ist } from '../script.js';
+import Characters from "../data/characters.json" with { type: "json" };
+import Archetypes from "../data/archetypes.json" with { type: "json" };
+import { char_ist } from "../script.js";
 
 function lv_up(character) {
   const baseStats = Characters.find((c) => c.id === character.id).stats;
@@ -13,8 +13,6 @@ function lv_up(character) {
     const growth_per_lv = baseStats[stat] * 0.1 + archBonus[stat] * 0.6;
     newStats[stat] = Number((currentStats[stat] + growth_per_lv).toFixed(1));
   }
-
-  newStats.hp += 1;
 
   character.stats = newStats;
   character.stats_instance = {
