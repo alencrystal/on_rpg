@@ -121,8 +121,62 @@ body {
   position: relative;
 }
 
-.pulsante:hover:not(:disabled) {
+.pulsante:hover:not(:disabled):not(.pulsante-mossa) {
   background-color: #e2e2e2;
+}
+
+.pulsante-mossa {
+  color: #1b1b1b;
+  font-weight: 600;
+  border-color: rgb(0 0 0 / 28%);
+}
+
+.pulsante-mossa:hover:not(:disabled) {
+  filter: brightness(0.92);
+}
+
+.pulsante-mossa[data-type="fire"] {
+  background-color: #f6a17a;
+}
+
+.pulsante-mossa[data-type="water"] {
+  background-color: #8cc9eb;
+}
+
+.pulsante-mossa[data-type="grass"] {
+  background-color: #9bcf8a;
+}
+
+.pulsante-mossa[data-type="electro"] {
+  background-color: #f3df78;
+}
+
+.pulsante-mossa[data-type="ice"] {
+  background-color: #b9e2e8;
+}
+
+.pulsante-mossa[data-type="ground"] {
+  background-color: #d1b184;
+}
+
+.pulsante-mossa[data-type="wind"] {
+  background-color: #a9d8bd;
+}
+
+.pulsante-mossa[data-type="steel"] {
+  background-color: #b8c0c9;
+}
+
+.pulsante-mossa[data-type="spirit"] {
+  background-color: #b9a2d0;
+}
+
+.pulsante-mossa[data-type="light"] {
+  background-color: #f5e7a1;
+}
+
+.pulsante-switch {
+  grid-column: 1 / -1;
 }
 
 .pulsante-label {

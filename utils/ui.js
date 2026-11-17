@@ -28,7 +28,7 @@ function getSpriteUrl(sprite) {
 function describeTarget(target, isEffectTarget = false) {
   const targets = {
     self: "attacker",
-    enemy: "the target",
+    enemy: "a target",
     enemies: "enemies",
     everyone: "other characters",
     ally: "selected ally",
@@ -104,6 +104,10 @@ function renderButtonLabel(button, element) {
   label.className = "pulsante-label";
   label.textContent = button.label;
   element.appendChild(label);
+  element.classList.add("pulsante-mossa");
+  if (button.details.type) {
+    element.dataset.type = button.details.type;
+  }
 
   // Il tooltip è un elemento separato sovrapposto alla griglia, non una faccia
   // del pulsante: così il testo principale non scompare durante l'hover.
@@ -156,6 +160,9 @@ export function waitForButtons(buttons) {
         el.classList.add("vuoto");
       } else {
         // Il renderer distingue i pulsanti normali dalle mosse con dettagli.
+        if (btn.value === "switch") {
+          el.classList.add("pulsante-switch");
+        }
         renderButtonLabel(btn, el);
         if (btn.disabled) {
           el.disabled = true;
