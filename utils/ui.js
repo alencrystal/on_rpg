@@ -1,23 +1,5 @@
 const buttonsContainer = document.querySelector(".area-pulsanti");
 
-// ===== Mappa tipo → emoji =====
-// Aggiungi qui gli altri tipi quando li conosci
-const TYPE_EMOJI = {
-  fire: "🔥",
-  water: "💧",
-  grass: "🌿",
-  electro: "⚡",
-  ice: "❄️",
-  ground: "🪨",
-  wind: "💨",
-  steel: "⚙️",
-  spirit: "🌀",
-};
-
-function getTypeEmoji(type) {
-  return TYPE_EMOJI[type] || "❓";
-}
-
 function getSpriteUrl(sprite) {
   const clean = (sprite || "unknown").toLowerCase().replace(/[^a-z0-9]/g, "");
   return `sprite/${clean}.gif`;
@@ -215,7 +197,9 @@ function renderCard(el, c, isActive) {
   const expNeeded = c.level * c.level * 75;
   const expPct = Math.min(100, (c.exp / expNeeded) * 100);
 
-  const typeEmoji = c.type.map(getTypeEmoji).join(" ");
+  const typeBadges = c.type
+    .map((type) => `<span class="card-type" data-type="${type}">${type}</span>`)
+    .join("");
   const spriteUrl = getSpriteUrl(c.sprite);
 
   el.innerHTML = `
@@ -230,7 +214,7 @@ function renderCard(el, c, isActive) {
             </div>
             <div class="card-sub">
                 <span>${c.archetype}</span>
-                <span>${typeEmoji}</span>
+                <span class="card-types">${typeBadges}</span>
             </div>
             <div class="bar bar-hp ${hpClass}">
                 <div class="bar-fill" style="width: ${hpPct}%"></div>

@@ -135,43 +135,53 @@ body {
   filter: brightness(0.92);
 }
 
-.pulsante-mossa[data-type="fire"] {
+.pulsante-mossa[data-type="fire"],
+.card-type[data-type="fire"] {
   background-color: #f6a17a;
 }
 
-.pulsante-mossa[data-type="water"] {
+.pulsante-mossa[data-type="water"],
+.card-type[data-type="water"] {
   background-color: #8cc9eb;
 }
 
-.pulsante-mossa[data-type="grass"] {
+.pulsante-mossa[data-type="grass"],
+.card-type[data-type="grass"] {
   background-color: #9bcf8a;
 }
 
-.pulsante-mossa[data-type="electro"] {
+.pulsante-mossa[data-type="electro"],
+.card-type[data-type="electro"] {
   background-color: #f3df78;
 }
 
-.pulsante-mossa[data-type="ice"] {
+.pulsante-mossa[data-type="ice"],
+.card-type[data-type="ice"] {
   background-color: #b9e2e8;
 }
 
-.pulsante-mossa[data-type="ground"] {
+.pulsante-mossa[data-type="ground"],
+.card-type[data-type="ground"] {
   background-color: #d1b184;
 }
 
-.pulsante-mossa[data-type="wind"] {
+.pulsante-mossa[data-type="wind"],
+.card-type[data-type="wind"] {
   background-color: #a9d8bd;
 }
 
-.pulsante-mossa[data-type="steel"] {
+.pulsante-mossa[data-type="steel"],
+.card-type[data-type="steel"] {
   background-color: #b8c0c9;
 }
 
-.pulsante-mossa[data-type="spirit"] {
+.pulsante-mossa[data-type="spirit"],
+.card-type[data-type="spirit"] {
   background-color: #b9a2d0;
 }
 
-.pulsante-mossa[data-type="light"] {
+.pulsante-mossa[data-type="light"],
+.card-type[data-type="light"] {
   background-color: #f5e7a1;
 }
 
@@ -260,7 +270,7 @@ body {
 .card-sprite {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1; /* quadrata, si adatta alla larghezza */
+  aspect-ratio: 1 / 0.9;
   background-color: #eee;
   flex-shrink: 0; /* non si comprime se lo spazio è poco */
 }
@@ -277,10 +287,12 @@ body {
 
 .card-sprite img {
   position: absolute;
-  inset: 0;
-  width: 100%;
+  top: 50%;
+  left: 50%;
+  width: 90%;
   height: 100%;
   object-fit: cover;
+  transform: translate(-50%, -50%);
 }
 
 .card-info {
@@ -302,8 +314,23 @@ body {
 .card-sub {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-size: 0.85em;
   color: #555;
+}
+
+.card-types {
+  display: flex;
+  gap: 4px;
+}
+
+.card-type {
+  padding: 1px 5px;
+  border: 1px solid rgb(0 0 0 / 28%);
+  border-radius: 4px;
+  color: #1b1b1b;
+  font-weight: 600;
+  text-transform: capitalize;
 }
 
 .bar {
